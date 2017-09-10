@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
+    var cell: UITableViewCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,11 +18,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         
-        // testing database
-//        let time = String (describing: DispatchTime.now())
-//        print (time)
-//        DBUtil.sharedInstance.addToDo(name: "first todo test", desc: "hi I am a desc", dateC: "\(time)", dateU: "\(time)")
+        DBUtil.sharedInstance.getAll()        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         DBUtil.sharedInstance.getAll()
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,30 +40,40 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return DBUtil.sharedInstance.getCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! UITableViewCell
-        cell.textLabel?.text = "Hello \(indexPath.row)"
-        
+        cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        self.cell.textLabel?.text = "\(DBUtil.sharedInstance.toDoM[indexPath.row].name)"
+        self.cell.tag = DBUtil.sharedInstance.toDoM[indexPath.row].id
         return cell
     }
     
     // for selecting
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print ("selected: \(indexPath.row)")
+        performSegue(withIdentifier: "editToDo", sender: self)
     }
     
     // for deleting
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
+            DBUtil.sharedInstance.delete(delId: Int64(self.cell.tag), index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print ("seague hit")
+        if segue.identifier == "editToDo" {
+            let vc = segue.destination as! DetailVC
+            // var indexPath = tableView.indexPathForCell(sender as UITableViewCell)
+            let indexPath = tableView.indexPathForSelectedRow
+            if let index = indexPath {
+                vc.toDo = DBUtil.sharedInstance.toDoM[index.row]
+            }
+        }
     }
     
 }

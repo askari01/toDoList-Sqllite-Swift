@@ -23,6 +23,16 @@ class DetailVC: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         nameTxt.delegate = self
         descTxt.delegate = self
+        
+        if toDo == nil {
+            
+        }
+        else {
+            nameTxt.text = toDo?.name
+            descTxt.text = toDo?.desc
+            dateCLbl.text = "Created at: \(toDo?.dateCreated)"
+            dateULbl.text = "Updated at: \(toDo?.dateUpdated)"
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,12 +42,20 @@ class DetailVC: UIViewController, UITextFieldDelegate {
     
     @IBAction func saveButton(_ sender: Any) {
         print ("hit save button")
-        
-        if nameTxt.text != "" && descTxt.text != "" {
-            let time = String (describing: DispatchTime.now())
-            print (time)
-            DBUtil.sharedInstance.addToDo(name: "\(nameTxt.text!)", desc: "\(descTxt.text!)", dateC: "\(time)", dateU: "\(time)")
-            DBUtil.sharedInstance.getAll()
+        if toDo == nil {
+            if nameTxt.text != "" && descTxt.text != "" {
+                let timestamp = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: .medium , timeStyle: .short)
+                
+                DBUtil.sharedInstance.addToDo(name: "\(nameTxt.text!)", desc: "\(descTxt.text!)", dateC: "\(timestamp)", dateU: "NA")
+                DBUtil.sharedInstance.getAll()
+            }
+        } else {
+            if nameTxt.text != "" && descTxt.text != "" {
+                let timestamp = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: .medium , timeStyle: .short)
+                var dateCreation = toDo!.dateCreated
+                
+                DBUtil.sharedInstance.update(id1: toDo!.id, name: nameTxt.text!, desc: descTxt.text!, dateC: "\(dateCreation)", dateU: "\(timestamp)")
+            }
         }
     }
     

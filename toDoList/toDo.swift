@@ -10,10 +10,15 @@ import Foundation
 
 class toDoModel : NSObject {
     
+    private var _id: Int!
     private var _name: String!
     private var _desc: String!
     private var _dateCreated: String!
     private var _dateUpdated: String!
+    
+    var id: Int {
+        return _id
+    }
     
     var name: String {
         return _name
@@ -31,7 +36,8 @@ class toDoModel : NSObject {
         return _dateUpdated
     }
     
-    init(name: String, desc: String, dateCreated: String, dateUpdated: String) {
+    init(id: Int, name: String, desc: String, dateCreated: String, dateUpdated: String) {
+        _id = id
         _name = name
         _desc = desc
         _dateCreated = dateCreated
