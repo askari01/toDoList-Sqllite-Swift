@@ -4,15 +4,29 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>toDoList.xcscheme</key>
+		<key>Pods-toDoList.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>SQLite.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3645DD7A1F62F2C000F14F36</key>
+		<key>8B630BB4D89DF8FB10B7C96BACADB603</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>948CD02098FAA1A92F3C1A8F395B13D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
