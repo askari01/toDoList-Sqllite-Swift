@@ -18,9 +18,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
         // testing database
-        let time = String (describing: DispatchTime.now())
-        print (time)
-        DBUtil.sharedInstance.addToDo(name: "first todo test", desc: "hi I am a desc", dateC: "\(time)", dateU: "\(time)")
+//        let time = String (describing: DispatchTime.now())
+//        print (time)
+//        DBUtil.sharedInstance.addToDo(name: "first todo test", desc: "hi I am a desc", dateC: "\(time)", dateU: "\(time)")
         DBUtil.sharedInstance.getAll()
     }
 
