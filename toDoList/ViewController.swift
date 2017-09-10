@@ -16,6 +16,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view, typically from a nib.
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // testing database
+        let time = String (describing: DispatchTime.now())
+        print (time)
+        DBUtil.sharedInstance.addToDo(name: "first todo test", desc: "hi I am a desc", dateC: "\(time)", dateU: "\(time)")
+        DBUtil.sharedInstance.getAll()
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,6 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     @IBAction func addItem(_ sender: Any) {
+        print ("add item")
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
